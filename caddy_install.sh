@@ -51,22 +51,16 @@ Download_caddy(){
 	fi
 	
 	if [[ ${bit} == "x86_64" ]]; then
-		wget --no-check-certificate -O "caddy_linux.tar.gz" "https://github.com/caddyserver/caddy/releases/download/v1.0.4/caddy_v1.0.4_linux_amd64.tar.gz"
+		wget --no-check-certificate -O "caddy" "https://dl.lamp.sh/files/caddy_linux_amd64"
 	elif [[ ${bit} == "i386" || ${bit} == "i686" ]]; then
-		wget --no-check-certificate -O "caddy_linux.tar.gz" "https://github.com/caddyserver/caddy/releases/download/v1.0.4/caddy_v1.0.4_linux_386.tar.gz"
+		wget --no-check-certificate -O "caddy" "https://dl.lamp.sh/files/caddy_linux_386"
 	elif [[ ${bit} == "armv7l" ]]; then
-		wget --no-check-certificate -O "caddy_linux.tar.gz" "https://github.com/caddyserver/caddy/releases/download/v1.0.4/caddy_v1.0.4_linux_arm7.tar.gz"
+		wget --no-check-certificate -O "caddy" "https://dl.lamp.sh/files/caddy_linux_arm7"
 	else
 		echo -e "${Error_font_prefix}[错误]${Font_suffix} 不支持 [${bit}] ! 请向本站反馈[]中的名称，我会看看是否可以添加支持。" && exit 1
 	fi
-	[[ ! -e "caddy_linux.tar.gz" ]] && echo -e "${Error_font_prefix}[错误]${Font_suffix} Caddy 下载失败 !" && exit 1
-	tar zxf "caddy_linux.tar.gz"
-	rm -rf "caddy_linux.tar.gz"
-	[[ ! -e ${caddy_file} ]] && echo -e "${Error_font_prefix}[错误]${Font_suffix} Caddy 解压失败或压缩文件错误 !" && exit 1
-	rm -rf LICENSES.txt
-	rm -rf README.txt 
-	rm -rf CHANGES.txt
-	rm -rf "init/"
+	[[ ! -e "caddy" ]] && echo -e "${Error_font_prefix}[错误]${Font_suffix} Caddy 下载失败 !" && exit 1
+	rm -rf "caddy"
 	chmod +x caddy
 }
 Service_caddy(){
@@ -78,11 +72,7 @@ Service_caddy(){
 		chkconfig --add caddy
 		chkconfig caddy on
 	else
-		if ! wget --no-check-certificate https://raw.githubusercontent.com/iiiiiii1/doubi/master/service/caddy_debian -O /etc/init.d/caddy; then
-			echo -e "${Error_font_prefix}[错误]${Font_suffix} Caddy服务 管理脚本下载失败 !" && exit 1
-		fi
-		chmod +x /etc/init.d/caddy
-		update-rc.d -f caddy defaults
+		systemctl enable caddy
 	fi
 }
 install_caddy(){
@@ -99,7 +89,7 @@ install_caddy(){
 	Service_caddy
 	echo && echo -e " Caddy 使用命令：${caddy_conf_file}
  日志文件：cat /tmp/caddy.log
- 使用说明：service caddy start | stop | restart | status
+ 使用说明：systemctl (start | stop | restart | status) caddy 
  或者使用：/etc/init.d/caddy start | stop | restart | status
  ${Info_font_prefix}[信息]${Font_suffix} Caddy 安装完成！" && echo
 }
