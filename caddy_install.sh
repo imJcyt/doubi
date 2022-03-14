@@ -51,17 +51,17 @@ Download_caddy(){
 	fi
 	
 	if [[ ${bit} == "x86_64" ]]; then
-		wget --no-check-certificate -O "caddy" "https://dl.lamp.sh/files/caddy_linux_amd64"
+		wget --no-check-certificate -O /usr/local/caddy/caddy "https://dl.lamp.sh/files/caddy_linux_amd64"
 	elif [[ ${bit} == "i386" || ${bit} == "i686" ]]; then
-		wget --no-check-certificate -O "caddy" "https://dl.lamp.sh/files/caddy_linux_386"
+		wget --no-check-certificate -O /usr/local/caddy/caddy "https://dl.lamp.sh/files/caddy_linux_386"
 	elif [[ ${bit} == "armv7l" ]]; then
-		wget --no-check-certificate -O "caddy" "https://dl.lamp.sh/files/caddy_linux_arm7"
+		wget --no-check-certificate -O /usr/local/caddy/caddy "https://dl.lamp.sh/files/caddy_linux_arm7"
 	else
 		echo -e "${Error_font_prefix}[错误]${Font_suffix} 不支持 [${bit}] ! 请向本站反馈[]中的名称，我会看看是否可以添加支持。" && exit 1
 	fi
-	[[ ! -e "caddy" ]] && echo -e "${Error_font_prefix}[错误]${Font_suffix} Caddy 下载失败 !" && exit 1
-	rm -rf "caddy"
-	chmod +x caddy
+	[[ ! -e /usr/local/caddy/caddy ]] && echo -e "${Error_font_prefix}[错误]${Font_suffix} Caddy 下载失败 !" && exit 1
+	rm -rf /usr/local/caddy/caddy
+	chmod +x /usr/local/caddy/caddy
 }
 Service_caddy(){
 	if [[ ${release} = "centos" ]]; then
