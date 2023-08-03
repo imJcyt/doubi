@@ -56,6 +56,8 @@ Download_caddy(){
 		wget --no-check-certificate -O /usr/local/caddy/caddy "https://dl.lamp.sh/files/caddy_linux_386"
 	elif [[ ${bit} == "armv7l" ]]; then
 		wget --no-check-certificate -O /usr/local/caddy/caddy "https://dl.lamp.sh/files/caddy_linux_arm7"
+  	elif [[ ${bit} == "aarch64" ]]; then
+   		wget --no-check-certificate -O /usr/local/caddy/caddy "https://dl.lamp.sh/files/caddy_linux_arm64"
 	else
 		echo -e "${Error_font_prefix}[错误]${Font_suffix} 不支持 [${bit}] ! 请向本站反馈[]中的名称，我会看看是否可以添加支持。" && exit 1
 	fi
